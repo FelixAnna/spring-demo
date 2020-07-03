@@ -1,0 +1,17 @@
+# VS code
+.history
+
+.idea/
+**/.idea
+**/target
+**/*.iml
+/.metadata/
+
+##ignore files created by eclipse by default
+*.project
+*.classpath
+*.settings/
+*/**/logFile.log
+*logFile.log
+
+.DS_Store
