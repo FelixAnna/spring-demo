@@ -2,6 +2,7 @@ package com.example.demosubchildtwo;
 
 import com.example.demosubchildone.model.Customer;
 import com.example.demosubchildone.service.AdmService;
+import com.example.demosubchildtwo.config.MyConfig;
 import com.example.demosubchildtwo.controller.HomeController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +27,8 @@ class HomeControllerTests {
     ObjectMapper objectMapper=new ObjectMapper();
 
     private WebTestClient client;
+    @Mock
+    private MyConfig myConfig;
 
     @Mock
     private AdmService admService;
@@ -37,18 +40,19 @@ class HomeControllerTests {
         webClientBuilder = WebClient.builder()
                 .exchangeFunction(clientRequest -> Mono.just(ClientResponse.create(HttpStatus.OK)
                         .header("content-type", "application/json")
-                        .body("hello world demo 2!")
+                        .body("hi")
                         .build())
                 );
-        client=WebTestClient.bindToController(new HomeController(admService, webClientBuilder)).build();
+        client=WebTestClient.bindToController(new HomeController(admService, webClientBuilder, myConfig)).build();
     }
 
     @Test
     void testGetMono() {
+        Mockito.when(myConfig.getHi()).thenReturn("there");
         client.get().uri("/home/mono").exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$").isEqualTo("hello world demo 2!");
+                .jsonPath("$").isEqualTo("hi there");
 
     }
 

@@ -1,0 +1,12 @@
+#spring.cloud.config.discovery.enabled=true
+
+spring:
+  cloud:
+    config:
+      discovery:
+        serviceId: config-server
+        enabled: true
+      fail-fast: true
+      retry:
+        max-attempts: 10
+        initial-interval: 3

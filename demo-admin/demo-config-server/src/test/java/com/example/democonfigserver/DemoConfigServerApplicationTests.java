@@ -1,10 +1,10 @@
-package com.example.demo2subchildone;
+package com.example.democonfigserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Demo2SubchildoneApplicationTests {
+class DemoConfigServerApplicationTests {
 
     @Test
     void contextLoads() {
