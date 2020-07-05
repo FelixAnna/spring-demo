@@ -26,10 +26,10 @@ public class HomeController {
         this.myConfig = myConfig;
     }
 
-    @GetMapping("/mono")
-    public Mono<String> getMonoValue(){
+    @GetMapping("/index")
+    public Mono<String> getIndex(){
         String hiOne = myConfig.getHi();
-        Mono<String> result = webClient.build().get().uri("http://sub2childtwo/home/running")
+        Mono<String> result = webClient.build().get().uri("http://sub2childtwo/home/index")
                 .retrieve()
                 .bodyToMono(String.class);
 
@@ -37,27 +37,22 @@ public class HomeController {
     }
 
     @GetMapping("/customers/all")
-    public Flux<Customer> getFluxArrayValue(){
+    public Flux<Customer> getAllCustomers(){
         Flux<Customer> customers =admService.getCustomers();
 
         return customers;
     }
 
     @GetMapping("/customers/{id}")
-    public Mono<Customer> getFluxValue(@PathVariable("id")String id){
+    public Mono<Customer> getCustomerById(@PathVariable("id")String id){
         Mono<Customer> customer = admService.getCustomerById(id);
 
         return customer;
     }
 
-    @PostMapping(value = "/customers")
-    public Mono<Customer> saveCustomer(@Valid @RequestBody Customer customer){
-        customer.setName(customer.getName()+"new name");
-        return Mono.just(customer);
-    }
-
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public Mono<String> saveCustomer(){
-        return Mono.just("hi");
+    @PostMapping(value = "/customers", consumes = MediaType.APPLICATION_JSON)
+    public Mono<Customer> saveCustomer(@Valid @RequestBody Mono<Customer> customer){
+        customer = customer.map(x->{x.setName(x.getName()+"new name"); return x;});
+        return customer;
     }
 }

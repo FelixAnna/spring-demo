@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -49,7 +50,7 @@ class HomeControllerTests {
     @Test
     void testGetMono() {
         Mockito.when(myConfig.getHi()).thenReturn("there");
-        client.get().uri("/home/mono").exchange()
+        client.get().uri("/home/index").exchange()
                 .expectStatus().isOk()
                 .expectBody()
                 .jsonPath("$").isEqualTo("hi there");
@@ -82,5 +83,18 @@ class HomeControllerTests {
                 .expectStatus().isOk()
                 .expectBody()
                 .json(objectMapper.writeValueAsString(fakeCustomer.block()));
+    }
+
+    @Test
+    void testSaveCustomer() {
+        Mono<Customer> fakeCustomer=Mono.just(Customer.builder().id("1").name("any").build());
+        client.post().uri("/home/customers")
+                .body(fakeCustomer, fakeCustomer.getClass())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.userName").isEqualTo("anynew name");
+
     }
 }
