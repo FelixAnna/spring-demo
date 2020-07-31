@@ -47,7 +47,7 @@
     </build>
 
     <modules>
-        <module>demo2-subchildone</module>
-        <module>demo2-subchildtwo</module>
+        <module>demo2-app-two</module>
+        <module>demo2-service-two</module>
     </modules>
 </project>

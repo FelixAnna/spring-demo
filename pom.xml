@@ -48,6 +48,9 @@
 
     <modules>
         <module>demo-childone</module>
+        <module>demo-childtwo</module>
+        <module>demo-gateway</module>
+        <module>demo-admin</module>
     </modules>
 
 </project>
